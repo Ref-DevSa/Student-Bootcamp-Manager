@@ -1,0 +1,501 @@
+// DAY 1: STUDENT BOOTCAMP MANAGER : REGISTERING STUDENTS
+
+// 1. We need to store all students in an array.
+const students = [];
+
+// This number helps us create a different ID for each student.
+let nextStudentNumber = 1; // to keep track of the next student number when registering students.
+
+// 2. Register a student.
+// The default course is used if no course is provided. Therefore the default parameter is used also.
+// Rest parameters allow the student to have any number of marks.
+function registerStudent(name, course = "JavaScript Essentials 2", ...marks) {
+
+  // Check that the student has a name.
+  if (typeof name !== "string" || name.trim() === "") {
+    console.log("Please enter a valid student name.");
+    return;
+  }
+
+  // Check that at least one mark has been provided.
+  if (marks.length === 0) {
+    console.log(`Please provide marks for ${name}.`);
+    return;
+  }
+
+  // Make sure all marks are numbers between 0 and 100.
+  const validMarks = marks.every(function (mark) {
+    return typeof mark === "number" && Number.isFinite(mark) && mark >= 0 && mark <= 100;
+  });
+
+  if (!validMarks) {
+    console.log(`Invalid marks for ${name}. Marks must be from 0 to 100.`);
+    return;
+  }
+
+  // Use spread syntax to copy the marks into a new array.
+  const studentMarks = [...marks];
+
+  // Create a new student record.
+  const student = {
+    id: `STU-${String(nextStudentNumber).padStart(4, "0")}`,
+    name: name.trim(),
+    course: course,
+    marks: studentMarks
+  };
+
+  // Save the student in our students array.
+  students.push(student);
+
+  // Move to the next student number.
+  nextStudentNumber++;
+
+  console.log(`Student ${student.name} registered successfully.`);
+}
+
+// 3. Calculate the average of a student's marks.
+function calculateAverage(marks) {
+
+  // Prevent errors if there are no marks.
+  if (!Array.isArray(marks) || marks.length === 0) {
+    return 0;
+  }
+
+  // Add all the marks together.
+  const total = marks.reduce(function (sum, mark) {
+    return sum + mark;
+  }, 0);
+
+  // Divide the total by the number of marks.
+  const average = total / marks.length;
+
+  // Round the answer to two decimal places.
+  return Number(average.toFixed(2));
+}
+
+// 4. Add more marks to an existing student.
+function addMarks(studentId, ...newMarks) {
+
+  // Find the student using their ID.
+  const student = students.find(function (student) {
+    return student.id === studentId;
+  });
+
+  if (!student) {
+    console.log(`Student ${studentId} was not found.`);
+    return;
+  }
+
+  if (newMarks.length === 0) {
+    console.log("Please provide at least one new mark.");
+    return;
+  }
+
+  const validMarks = newMarks.every(function (mark) {
+    return typeof mark === "number" &&
+      Number.isFinite(mark) &&
+      mark >= 0 &&
+      mark <= 100;
+  });
+
+  if (!validMarks) {
+    console.log("New marks must be numbers from 0 to 100.");
+    return;
+  }
+
+  // Spread syntax combines the old marks and new marks.
+  student.marks = [...student.marks, ...newMarks];
+
+  console.log(`New marks added for ${student.name}.`);
+}
+
+// 5. Display all students and their averages.
+function displayStudents() {
+
+  if (students.length === 0) {
+    console.log("There are no students registered yet.");
+    return;
+  }
+
+  console.log("\n===== STUDENT REGISTER =====");
+
+  students.forEach(function (student) {
+    const average = calculateAverage(student.marks);
+
+    console.log(`\nStudent ID: ${student.id}`);
+    console.log(`Name: ${student.name}`);
+    console.log(`Course: ${student.course}`);
+    console.log(`Marks: ${student.marks.join(", ")}`);
+    console.log(`Average: ${average}`);
+  });
+
+  console.log(`\nTotal students: ${students.length}`);
+}
+
+// 6. Register some example students to test the application.
+registerStudent("Siya Ndlovu", "JavaScript Essentials 2", 78, 84, 91);
+
+registerStudent("Ashley Meyers", "Web Development", 45, 52);
+
+registerStudent("Steven Jobs", undefined, 88);
+
+// 7. Display the registered students.
+displayStudents();
+
+// 8. Add another mark to Siya's record.
+addMarks("STU-0001", 95);
+
+// 9. Display the students again to check the change.
+console.log("\n===== UPDATED STUDENT REGISTER =====");
+displayStudents();
+
+// 10. Test what happens when a student has an invalid mark.
+registerStudent("Jan Smith", "Web Development", 75, 120);
+
+// ==================================================================================
+
+// DAY 2: STUDENT BOOTCAMP MANAGER : TESTING EACH CHALLENGE
+
+// Store all registered students in an array.
+
+// Register a student and save their marks.
+function registerStudent(name, course = "JavaScript Essentials 2", ...marks) {
+  if (typeof name !== "string" || name.trim() === "") {
+    console.log("Please enter a valid student name.");
+    return;
+  }
+
+  if (marks.length === 0) {
+    console.log(`Please provide marks for ${name}.`);
+    return;
+  }
+
+  const validMarks = marks.every(function (mark) {
+    return typeof mark === "number" && Number.isFinite(mark) && mark >= 0 && mark <= 100;
+  });
+
+  if (!validMarks) {
+    console.log(`Invalid marks for ${name}. Marks must be from 0 to 100.`);
+    return;
+  }
+
+  const student = {
+    id: `STU-${String(nextStudentNumber).padStart(4, "0")}`,
+    name: name.trim(),
+    course: course,
+    marks: [...marks]
+  };
+
+  students.push(student);
+  nextStudentNumber++;
+
+  console.log(`Student ${student.name} registered successfully.`);
+}
+
+// Calculate the average of a student's marks.
+function calculateAverage(marks) {
+  if (!Array.isArray(marks) || marks.length === 0) {
+    return 0;
+  }
+
+  const total = marks.reduce(function (sum, mark) {
+    return sum + mark;
+  }, 0);
+
+  const average = total / marks.length;
+
+  return Number(average.toFixed(2));
+}
+
+// Find a student using their student ID.
+function findStudent(studentId) {
+  const student = students.find(function (student) {
+    return student.id === studentId;
+  });
+
+  if (!student) {
+    console.log(`Student ${studentId} was not found.`);
+    return;
+  }
+
+  console.log("\n===== STUDENT FOUND =====");
+  console.log(`Student ID: ${student.id}`);
+  console.log(`Name: ${student.name}`);
+  console.log(`Course: ${student.course}`);
+  console.log(`Average: ${calculateAverage(student.marks)}%`);
+}
+
+// Decide whether a student passed or failed.
+// Pass mark is 50%.
+function getStudentResult(student) {
+  const average = calculateAverage(student.marks);
+
+  if (average >= 50) {
+    return "PASS";
+  } else {
+    return "FAIL";
+  }
+}
+
+// Display each student's average and result.
+function displayStudentResults() {
+  console.log("\n===== STUDENT RESULTS =====");
+
+  students.forEach(function (student) {
+    const average = calculateAverage(student.marks);
+    const result = getStudentResult(student);
+
+    console.log(`\nStudent: ${student.name}`);
+    console.log(`Student ID: ${student.id}`);
+    console.log(`Average: ${average}%`);
+    console.log(`Result: ${result}`);
+  });
+}
+
+// Find the student with the highest average.
+function findTopStudent() {
+  if (students.length === 0) {
+    console.log("There are no students to compare.");
+    return;
+  }
+
+  let topStudent = students[0];
+
+  students.forEach(function (student) {
+    if (
+      calculateAverage(student.marks) >
+      calculateAverage(topStudent.marks)
+    ) {
+      topStudent = student;
+    }
+  });
+
+  console.log("\n===== TOP STUDENT =====");
+  console.log(`Name: ${topStudent.name}`);
+  console.log(`Student ID: ${topStudent.id}`);
+  console.log(`Average: ${calculateAverage(topStudent.marks)}%`);
+}
+
+// Create a summary of the class results.
+function displayClassReport() {
+  if (students.length === 0) {
+    console.log("There are no students to include in the report.");
+    return;
+  }
+
+  const passedStudents = students.filter(function (student) {
+    return getStudentResult(student) === "PASS";
+  });
+
+  const failedStudents = students.filter(function (student) {
+    return getStudentResult(student) === "FAIL";
+  });
+
+  const totalAverages = students.reduce(function (total, student) {
+    return total + calculateAverage(student.marks);
+  }, 0);
+
+  const classAverage = Number(
+    (totalAverages / students.length).toFixed(2)
+  );
+
+  console.log("\n===== CLASS REPORT =====");
+  console.log(`Total students: ${students.length}`);
+  console.log(`Students passed: ${passedStudents.length}`);
+  console.log(`Students failed: ${failedStudents.length}`);
+  console.log(`Class average: ${classAverage}%`);
+}
+
+// DAY 1: REGISTER OUR STUDENTS.
+registerStudent("Siya Ndlovu", "JavaScript Essentials 2", 78, 84, 91);
+registerStudent("Sipho Dlamini", "Web Development", 45, 52);
+registerStudent("Steven Jobs", undefined, 88);
+
+// Add one more mark to Siya, as we did on Day 1.
+const siya = students.find(function (student) {
+  return student.id === "STU-0001";
+});
+
+if (siya) {
+  siya.marks = [...siya.marks, 95];
+  console.log(`A new mark was added for ${siya.name}.`);
+}
+
+// DAY 2: TEST EACH CHALLENGE.
+
+// Challenge 1: Find Siya using her student ID.
+findStudent("STU-0001");
+
+// Challenge 2: Display everyone's pass or fail result.
+displayStudentResults();
+
+// Challenge 3: Find the student with the highest average.
+findTopStudent();
+
+// Challenge 4: Display the class report.
+displayClassReport();
+
+// ==================================================================================
+
+// DAY 3: STUDENT BOOTCAMP MANAGER
+
+// Register a student and save their marks.
+function registerStudent(name, course = "JavaScript Essentials 2", ...marks) {
+  if (typeof name !== "string" || name.trim() === "") {
+    console.log("Please enter a valid student name.");
+    return;
+  }
+
+  if (marks.length === 0) {
+    console.log(`Please provide marks for ${name}.`);
+    return;
+  }
+
+  const validMarks = marks.every(function (mark) {
+    return typeof mark === "number" &&
+      Number.isFinite(mark) &&
+      mark >= 0 &&
+      mark <= 100;
+  });
+
+  if (!validMarks) {
+    console.log(`Invalid marks for ${name}. Marks must be from 0 to 100.`);
+    return;
+  }
+
+  const student = {
+    id: `STU-${String(nextStudentNumber).padStart(4, "0")}`,
+    name: name.trim(),
+    course: course,
+    marks: [...marks]
+  };
+
+  students.push(student);
+  nextStudentNumber++;
+
+  console.log(`Student ${student.name} registered successfully.`);
+}
+
+// Calculate the average of a student's marks.
+function calculateAverage(marks) {
+  if (!Array.isArray(marks) || marks.length === 0) {
+    return 0;
+  }
+
+  const total = marks.reduce(function (sum, mark) {
+    return sum + mark;
+  }, 0);
+
+  return Number((total / marks.length).toFixed(2));
+}
+
+// Challenge 1: Search for a student by name.
+function findStudentByName(searchName) {
+  const cleanedSearchName = searchName.trim().toLowerCase();
+
+  const student = students.find(function (student) {
+    return student.name.toLowerCase() === cleanedSearchName;
+  });
+
+  if (!student) {
+    console.log(`No student found with the name "${searchName}".`);
+    return;
+  }
+
+  console.log("\n===== STUDENT SEARCH RESULT =====");
+  console.log(`Name: ${student.name}`);
+  console.log(`Student ID: ${student.id}`);
+  console.log(`Course: ${student.course}`);
+  console.log(`Average: ${calculateAverage(student.marks)}%`);
+
+  return student;
+}
+
+// Challenge 2: Add new marks to a student's record.
+function addMarks(studentId, ...newMarks) {
+  const student = students.find(function (student) {
+    return student.id === studentId;
+  });
+
+  if (!student) {
+    console.log(`Student ${studentId} was not found.`);
+    return;
+  }
+
+  if (newMarks.length === 0) {
+    console.log("Please provide at least one new mark.");
+    return;
+  }
+
+  const validMarks = newMarks.every(function (mark) {
+    return typeof mark === "number" &&
+      Number.isFinite(mark) &&
+      mark >= 0 &&
+      mark <= 100;
+  });
+
+  if (!validMarks) {
+    console.log("Marks must be numbers from 0 to 100. No marks were added.");
+    return;
+  }
+
+  student.marks = [...student.marks, ...newMarks];
+
+  console.log(`New marks added for ${student.name}.`);
+  console.log(`Updated average: ${calculateAverage(student.marks)}%`);
+}
+
+// Challenge 3: Display only students who passed.
+function displayPassedStudents() {
+  const passedStudents = students.filter(function (student) {
+    return calculateAverage(student.marks) >= 50;
+  });
+
+  console.log("\n===== STUDENTS WHO PASSED =====");
+
+  if (passedStudents.length === 0) {
+    console.log("No students have passed yet.");
+    return;
+  }
+
+  passedStudents.forEach(function (student) {
+    console.log(
+      `${student.name}: ${calculateAverage(student.marks)}% - PASS`
+    );
+  });
+}
+
+// Challenge 4: Sort students from highest to lowest average.
+function displayStudentsByAverage() {
+  const sortedStudents = [...students].sort(function (studentA, studentB) {
+    return calculateAverage(studentB.marks) -
+      calculateAverage(studentA.marks);
+  });
+
+  console.log("\n===== STUDENTS RANKED BY AVERAGE =====");
+
+  sortedStudents.forEach(function (student, index) {
+    console.log(
+      `${index + 1}. ${student.name} - ${calculateAverage(student.marks)}%`
+    );
+  });
+}
+
+// Register the same example students used on Days 1 and 2.
+registerStudent("Siya Ndlovu", "JavaScript Essentials 2", 78, 84, 91);
+registerStudent("Ashley Meyers", "Web Development", 45, 52);
+registerStudent("Steven Jobs", undefined, 88);
+
+// DAY 3: TEST EACH CHALLENGE.
+
+// Challenge 1: Search using lowercase letters.
+findStudentByName("siya ndlovu");
+
+// Challenge 2: Add another mark to Siya.
+addMarks("STU-0001", 95);
+
+// Challenge 3: Display students who passed.
+displayPassedStudents();
+
+// Challenge 4: Rank all students from highest to lowest average.
+displayStudentsByAverage();
