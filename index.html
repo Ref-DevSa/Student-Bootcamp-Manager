@@ -4,98 +4,31 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Student Bootcamp Manager</title>
-
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      margin: 0;
-      padding: 20px;
-      background-color: #f4f6f9;
-      color: #333;
-    }
-
-    header {
-      background-color: #243b55;
-      color: white;
-      padding: 20px;
-      border-radius: 8px;
-      text-align: center;
-    }
-
-    section {
-      background-color: white;
-      padding: 20px;
-      margin-top: 20px;
-      border-radius: 8px;
-    }
-
-    button {
-      background-color: #243b55;
-      color: white;
-      padding: 10px 14px;
-      margin: 5px;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-    }
-
-    button:hover {
-      background-color: #36577a;
-    }
-
-    input {
-      padding: 10px;
-      margin: 5px;
-      max-width: 100%;
-    }
-
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      margin-top: 15px;
-    }
-
-    th, td {
-      padding: 10px;
-      border: 1px solid #ddd;
-      text-align: left;
-    }
-
-    th {
-      background-color: #243b55;
-      color: white;
-    }
-
-    .message {
-      margin-top: 12px;
-      white-space: pre-line;
-    }
-
-    .pass {
-      color: #16753b;
-      font-weight: bold;
-    }
-
-    .fail {
-      color: #b42318;
-      font-weight: bold;
-    }
+    body { font-family: Verdana, Geneva, Tahoma, sans-serif; margin: 0; padding: 20px; background: #f4f6f9; color: #333; }
+    header { background: #f1289d; color: white; padding: 20px; border-radius: 8px; text-align: center; }
+    section { background: rgba(136, 187, 226, 0.751); padding: 20px; margin-top: 20px; border-radius: 8px; }
+    button { background: #f1289d; color: white; padding: 10px 14px; margin: 5px; border: 0; border-radius: 5px; cursor: pointer; }
+    button:hover { background: rgb(36, 191, 59); }
+    input { padding: 10px; margin: 5px; max-width: 100%; }
+    table { width: 100%; border-collapse: collapse; margin-top: 15px; }
+    th, td { padding: 10px; border: 1px solid #ddd; text-align: left; }
+    th { background: #f1289d; color: white; }
+    .message { white-space: pre-line; }
+    .pass { color: #16753b; font-weight: bold; }
+    .fail { color: #b42318; font-weight: bold; }
+    @media (max-width: 700px) { section { overflow-x: auto; } table { min-width: 650px; } }
   </style>
 </head>
-
 <body>
   <header>
     <h1>Student Bootcamp Manager</h1>
-    <p>Manage student records, marks, and results</p>
+    <p>Search student records, check results, and view class reports</p>
   </header>
 
   <section>
     <h2>Search for a Student</h2>
-    <input
-      type="text"
-      id="student-search"
-      placeholder="Enter student name"
-    >
+    <input id="student-search" type="text" placeholder="Full student name">
     <button id="search-button">Search</button>
     <button id="show-all-button">Show All Students</button>
     <p id="search-message" class="message"></p>
@@ -104,21 +37,8 @@
   <section>
     <h2>Student Records</h2>
     <table>
-      <thead>
-        <tr>
-          <th>Student ID</th>
-          <th>Name</th>
-          <th>Course</th>
-          <th>Marks</th>
-          <th>Average</th>
-          <th>Result</th>
-        </tr>
-      </thead>
-      <tbody id="students-table">
-        <tr>
-          <td colspan="6">Loading student records...</td>
-        </tr>
-      </tbody>
+      <thead><tr><th>Student ID</th><th>Name</th><th>Course</th><th>Marks</th><th>Average</th><th>Result</th></tr></thead>
+      <tbody id="students-table"></tbody>
     </table>
   </section>
 
@@ -129,107 +49,64 @@
     <p id="report-output" class="message"></p>
   </section>
 
-  <script src="script.js"></script>
-  <script>
-    // Display the students in the browser.
-    function displayStudentsInBrowser(studentList) {
-      const table = document.getElementById("students-table");
+  <!-- Loading the shared functions first, then the browser dashboard. -->
+  <script src="student-manager.js"></script>
+  <script src="dashboard.js"></script>
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Student Bootcamp Manager</title>
+  <style>
+    body { font-family: Verdana, Geneva, Tahoma, sans-serif; margin: 0; padding: 20px; background: #f4f6f9; color: #333; }
+    header { background: #f1289d; color: white; padding: 20px; border-radius: 8px; text-align: center; }
+    section { background: rgba(136, 187, 226, 0.751); padding: 20px; margin-top: 20px; border-radius: 8px; }
+    button { background: #f1289d; color: white; padding: 10px 14px; margin: 5px; border: 0; border-radius: 5px; cursor: pointer; }
+    button:hover { background: rgb(36, 191, 59); }
+    input { padding: 10px; margin: 5px; max-width: 100%; }
+    table { width: 100%; border-collapse: collapse; margin-top: 15px; }
+    th, td { padding: 10px; border: 1px solid #ddd; text-align: left; }
+    th { background: #f1289d; color: white; }
+    .message { white-space: pre-line; }
+    .pass { color: #16753b; font-weight: bold; }
+    .fail { color: #b42318; font-weight: bold; }
+    @media (max-width: 700px) { section { overflow-x: auto; } table { min-width: 650px; } }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Student Bootcamp Manager</h1>
+    <p>Search student records, check results, and view class reports</p>
+  </header>
 
-      if (studentList.length === 0) {
-        table.innerHTML = '<tr><td colspan="6">No students found.</td></tr>';
-        return;
-      }
+  <section>
+    <h2>Search for a Student</h2>
+    <input id="student-search" type="text" placeholder="Full student name">
+    <button id="search-button">Search</button>
+    <button id="show-all-button">Show All Students</button>
+    <p id="search-message" class="message"></p>
+  </section>
 
-      table.innerHTML = studentList.map(function (student) {
-        const average = calculateAverage(student.marks);
-        const result = average >= 50 ? "PASS" : "FAIL";
-        const resultClass = result === "PASS" ? "pass" : "fail";
+  <section>
+    <h2>Student Records</h2>
+    <table>
+      <thead><tr><th>Student ID</th><th>Name</th><th>Course</th><th>Marks</th><th>Average</th><th>Result</th></tr></thead>
+      <tbody id="students-table"></tbody>
+    </table>
+  </section>
 
-        return `
-          <tr>
-            <td>${student.id}</td>
-            <td>${student.name}</td>
-            <td>${student.course}</td>
-            <td>${student.marks.join(", ")}</td>
-            <td>${average}%</td>
-            <td class="${resultClass}">${result}</td>
-          </tr>
-        `;
-      }).join("");
-    }
+  <section>
+    <h2>Class Report</h2>
+    <button id="report-button">Show Class Report</button>
+    <button id="top-student-button">Show Top Student</button>
+    <p id="report-output" class="message"></p>
+  </section>
 
-    // Search for a student by name.
-    document.getElementById("search-button").addEventListener("click", function () {
-      const searchName = document.getElementById("student-search").value.trim().toLowerCase();
-
-      const matchingStudents = students.filter(function (student) {
-        return student.name.toLowerCase().includes(searchName);
-      });
-
-      displayStudentsInBrowser(matchingStudents);
-
-      document.getElementById("search-message").textContent =
-        matchingStudents.length > 0
-          ? `Found ${matchingStudents.length} student(s).`
-          : "No matching students found.";
-    });
-
-    // Display all student records again.
-    document.getElementById("show-all-button").addEventListener("click", function () {
-      displayStudentsInBrowser(students);
-      document.getElementById("student-search").value = "";
-      document.getElementById("search-message").textContent = "";
-    });
-
-    // Display the class report.
-    document.getElementById("report-button").addEventListener("click", function () {
-      const passed = students.filter(function (student) {
-        return calculateAverage(student.marks) >= 50;
-      });
-
-      const failed = students.filter(function (student) {
-        return calculateAverage(student.marks) < 50;
-      });
-
-      const totalAverage = students.reduce(function (total, student) {
-        return total + calculateAverage(student.marks);
-      }, 0);
-
-      const classAverage = students.length > 0
-        ? (totalAverage / students.length).toFixed(2)
-        : "0.00";
-
-      document.getElementById("report-output").textContent =
-        `Total students: ${students.length}\n` +
-        `Students passed: ${passed.length}\n` +
-        `Students failed: ${failed.length}\n` +
-        `Class average: ${classAverage}%`;
-    });
-
-    // Display the top student.
-    document.getElementById("top-student-button").addEventListener("click", function () {
-      if (students.length === 0) {
-        document.getElementById("report-output").textContent =
-          "There are no students registered yet.";
-        return;
-      }
-
-      let topStudent = students[0];
-
-      students.forEach(function (student) {
-        if (calculateAverage(student.marks) > calculateAverage(topStudent.marks)) {
-          topStudent = student;
-        }
-      });
-
-      document.getElementById("report-output").textContent =
-        `Top student: ${topStudent.name}\n` +
-        `Student ID: ${topStudent.id}\n` +
-        `Average: ${calculateAverage(topStudent.marks)}%`;
-    });
-
-    // Show the records when the page opens.
-    displayStudentsInBrowser(students);
-  </script>
+  <!-- Loading the shared functions first, then the browser dashboard. -->
+  <script src="student-manager.js"></script>
+  <script src="dashboard.js"></script>
 </body>
 </html>
