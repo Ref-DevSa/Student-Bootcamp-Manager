@@ -146,14 +146,14 @@ function displayStudentsByAverage() {
 }
 
 // Register the same example students used on Days 1 and 2.
-registerStudent("Naledi Mokoena", "JavaScript Essentials 2", 78, 84, 91);
-registerStudent("Sipho Dlamini", "Web Development", 45, 52);
-registerStudent("Ayesha Khan", undefined, 88);
+registerStudent("Siya Ndlovu", "JavaScript Essentials 2", 78, 84, 91);
+registerStudent("Ashley Meyers", "Web Development", 45, 52);
+registerStudent("Steven Jobs", undefined, 88);
 
 // DAY 3: TEST EACH CHALLENGE.
 
 // Challenge 1: Search using lowercase letters.
-findStudentByName("naledi mokoena");
+findStudentByName("siya ndlovu");
 
 // Challenge 2: Add another mark to Naledi.
 addMarks("STU-0001", 95);
