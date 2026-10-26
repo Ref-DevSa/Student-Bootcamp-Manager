@@ -155,7 +155,7 @@ registerStudent("Steven Jobs", undefined, 88);
 // Challenge 1: Search using lowercase letters.
 findStudentByName("siya ndlovu");
 
-// Challenge 2: Add another mark to Naledi.
+// Challenge 2: Add another mark to Siya.
 addMarks("STU-0001", 95);
 
 // Challenge 3: Display students who passed.
